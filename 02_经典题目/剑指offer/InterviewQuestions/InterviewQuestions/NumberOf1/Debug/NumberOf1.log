@@ -1,0 +1,23 @@
+﻿生成启动时间为 2013/12/9 22:08:13。
+     1>项目“D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\NumberOf1\NumberOf1.vcxproj”在节点 3 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug\32_NumberOf1.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"StdAfx.h" /Fp"Debug\32_NumberOf1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\32_NumberOf1.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt NumberOf1.cpp
+         NumberOf1.cpp
+     1>d:\lib\面试题\02_经典题目\剑指offer\interviewquestions\interviewquestions\numberof1\numberof1.cpp(48): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(371) : 参见“sprintf”的声明
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Debug\32_NumberOf1.exe.embed.manifest.res" Debug\32_NumberOf1_manifest.rc 
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\Debug\32_NumberOf1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\32_NumberOf1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\Debug\32_NumberOf1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\Debug\32_NumberOf1.lib" /MACHINE:X86 Debug\32_NumberOf1.exe.embed.manifest.res
+         Debug\NumberOf1.obj
+         Debug\stdafx.obj
+     1>LINK : fatal error LNK1123: 转换到 COFF 期间失败: 文件无效或损坏
+     1>已完成生成项目“D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\NumberOf1\NumberOf1.vcxproj”(build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.41

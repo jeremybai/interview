@@ -1,0 +1,19 @@
+﻿生成启动时间为 2013/12/9 22:09:02。
+     1>项目“D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\ReplaceBlank\ReplaceBlank.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在对“Debug\04_ReplaceBlank.unsuccessfulbuild”执行 Touch 任务。
+       ClCompile:
+         所有输出均为最新。
+         所有输出均为最新。
+       ManifestResourceCompile:
+         所有输出均为最新。
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\Debug\04_ReplaceBlank.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\04_ReplaceBlank.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\Debug\04_ReplaceBlank.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\Debug\04_ReplaceBlank.lib" /MACHINE:X86 Debug\04_ReplaceBlank.exe.embed.manifest.res
+         Debug\ReplaceBlank.obj
+         Debug\stdafx.obj
+     1>LINK : fatal error LNK1123: 转换到 COFF 期间失败: 文件无效或损坏
+     1>已完成生成项目“D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\ReplaceBlank\ReplaceBlank.vcxproj”(build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.15

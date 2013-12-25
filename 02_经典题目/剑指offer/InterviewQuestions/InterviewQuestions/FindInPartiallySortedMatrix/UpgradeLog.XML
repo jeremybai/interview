@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="FindInPartiallySortedMatrix">
+</Property><Property Name="解决方案文件" Value="D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\FindInPartiallySortedMatrix\FindInPartiallySortedMatrix.sln">
+</Property><Property Name="Date" Value="2013年12月20日">
+</Property><Property Name="Time" Value="10:17:31">
+</Property></Properties><Event ErrorLevel="0" Project="FindInPartiallySortedMatrix" Source="FindInPartiallySortedMatrix.vcproj" Description="Converting project file 'D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\FindInPartiallySortedMatrix\FindInPartiallySortedMatrix.vcproj'.">
+</Event><Event ErrorLevel="1" Project="FindInPartiallySortedMatrix" Source="FindInPartiallySortedMatrix.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="FindInPartiallySortedMatrix" Source="FindInPartiallySortedMatrix.vcproj" Description="Done converting to new project file 'D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\FindInPartiallySortedMatrix\FindInPartiallySortedMatrix.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="FindInPartiallySortedMatrix" Source="FindInPartiallySortedMatrix.vcproj" Description="Converted">
+</Event></UpgradeLog>

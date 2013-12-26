@@ -14,14 +14,14 @@
  * @param   None
  * @retval  TreeNode* 创建的树节点。
  * @see     TreeNode;
- * @note    scanf函数的问题：scanf会读入回车符，当需要一个一个的输入字符时，可以在%c前面加个空格
+ * @note    scanf函数的问题：scanf会读入回车符，当需要一个一个的输入字符时，
+			可以在%c前面加个空格
  */
 TreeNode* Create_Binarytree()
 {
     ElementType ch;
     TreeNode* T;
-    // scanf(" %c",&ch);    //这样调用scanf时，树的结点一次全部输入，如果要一次一个的输入，在%c前加个空格
-	ch  = getchar();
+    scanf("%c",&ch);    //这样调用scanf时，树的结点一次全部输入，如果要一次一个的输入，在%c前加个空格
     if(ch != '#')
     {
 		if(NULL == (T = (TreeNode*)malloc(sizeof(TreeNode))))
@@ -42,7 +42,7 @@ TreeNode* Create_Binarytree()
 
 /** 
  * @brief   使用先序遍历二叉树。
- * @param   T	根节点指针
+ * @param[in]   T	根节点指针
  * @retval  None。
  * @see     TreeNode;
  * @note    先序遍历二叉树。
@@ -58,11 +58,51 @@ void Preorder_Traversal(TreeNode *T)
         Preorder_Traversal(T->rightchild);
     }
 }
-
-
+/** 
+ * @brief   使用中序遍历二叉树。
+ * @param[in]   T	根节点指针
+ * @retval  None。
+ * @see     TreeNode;
+ * @note   中序遍历二叉树。
+ */
+void Inorder_Traversal(TreeNode *T)
+{
+    ElementType data;
+    if(T!=NULL)
+    {
+        Inorder_Traversal(T->leftchild);
+		data=T->data;
+        printf("%c ",data);
+        Inorder_Traversal(T->rightchild);
+    }
+}/** 
+ * @brief   使用后序遍历二叉树。
+ * @param[in]   T	根节点指针
+ * @retval  None。
+ * @see     TreeNode;
+ * @note    后序遍历二叉树。
+ */
+void Postorder_Traversal(TreeNode *T)
+{
+    ElementType data;
+    if(T!=NULL)
+    {
+        Postorder_Traversal(T->leftchild);
+        Postorder_Traversal(T->rightchild);
+		data=T->data;
+        printf("%c ",data);
+    }
+}
+ 
 int main()
 {
 	TreeNode* T;
 	T = Create_Binarytree();
+    printf("前序遍历为：");
 	Preorder_Traversal(T);
+	printf("\n中序遍历为：");
+	Inorder_Traversal(T);
+	printf("\n后序遍历为：");
+	Postorder_Traversal(T);
+	printf("\n");
 }

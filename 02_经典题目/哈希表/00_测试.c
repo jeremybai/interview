@@ -6,7 +6,7 @@
 
 int main()
 {
-#if(0)
+
 	char *ptr;
 	uint32_t i;
 	if (NULL == (ptr = (char *)malloc(10*sizeof (char)))) 
@@ -23,13 +23,14 @@ int main()
 	free(ptr);
 	ptr =NULL;
 	return 0;
-#endif
+	#if(0)
 	int array[20] = {1};
 	int *ptr;
 	ptr = (int *)array;
 	printf("\narray size:%d  pointer size:%d\n",sizeof(array),sizeof(ptr));
 	printf("array name:%d  array name+1:%d   narray pointer:%d narray pointer+1:%d\n",array,array+1,&array,&array+1);
 	ptr =NULL;
+	#endif
 }
 
 

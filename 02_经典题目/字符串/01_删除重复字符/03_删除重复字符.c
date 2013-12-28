@@ -5,13 +5,14 @@
  * @date     2013.12.27
  * @note     时间复杂度O(1) 空间复杂度O(1)
  ****************************************************************************/
-# include <stdio.h>
-# include <string.h>
-# include <malloc.h>
-# include <stdint.h>
-# include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <malloc.h>
+#include <stdint.h>
+#include <stdlib.h>
 //输入字符的最大长度
-# define N 100
+#define N 100
+#define DEBUG
 
 int HashTable[255]={0};   // contains A-F and a-z character
 
@@ -23,8 +24,12 @@ int HashTable[255]={0};   // contains A-F and a-z character
  */
 void LoadHashTable(char *str) 
 {
+    if(0 == strlen(str))
+	{
+		printf("输入字符串为空！\n\n");
+		return ;
+	}
     int i,j = 0;
-    int pos;   // the hash address 
     for(i = 0;i < strlen(str);i++) 
 	{
 		if(HashTable[(int)str[i]] == 0)
@@ -35,14 +40,16 @@ void LoadHashTable(char *str)
 
     }
 	str[j] = '\0';
+	printf("删除重复字符后的字符串为：\n%s\n\n", str);
 }
 
 int main() 
 {
+#ifdef USERMODE
 	char *Old_ptr,* New_ptr;
-	int Old_Length,i,j = 0, pos,val;
+	int Old_Length,i,j = 0,val;
 	char Test_char;
-	//申请输入字符串大小的空间
+	// 申请输入字符串大小的空间
 	if (NULL == (Old_ptr = (char * )malloc(N * sizeof(char)))) 
 	{
 		perror("error...");
@@ -56,13 +63,33 @@ int main()
 		free(Old_ptr);
 		return 1;
 	}
-	//获得输入字符串的长度
+	// 获得输入字符串的长度
 	Old_Length = strlen(Old_ptr);
 	printf("字符串长度为%d\n",Old_Length);	
-	//初始化哈希表并且完成处理
+	// 初始化哈希表并且完成处理
 	LoadHashTable(Old_ptr);
-	printf("删除重复字符后的字符串为：\n%s\n", Old_ptr);
-	//释放申请的空间
+	// 释放申请的空间
 	free(Old_ptr);
+#endif	
+#ifdef DEBUG
+	//=======================================================================
+	//测试
+	printf("==============================================================\n");
+	char a[100] = "aabbccdd";
+	printf("输入字符串为：\n%s\n",a);
+	LoadHashTable(a);
+	memset(HashTable,0,255*sizeof(int));
+	printf("==============================================================\n");
+	char b[100] = "";	
+	printf("输入字符串为：%s\n",b);
+	LoadHashTable(b);
+	memset(HashTable,0,255*sizeof(int));
+	printf("==============================================================\n");
+	char c[100] = "123562356 abca deef";
+	printf("输入字符串为：%s\n",c);
+	LoadHashTable(c);
+	memset(HashTable,0,255*sizeof(int));
+	printf("==============================================================\n");
 	return 0;
+#endif	
 }

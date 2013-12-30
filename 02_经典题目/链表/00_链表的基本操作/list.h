@@ -27,6 +27,8 @@ int List_Init(Node *N);
 Node* List_User_Init();
 int List_Traversal(Node * head_ptr);
 void List_Delete(Node *N);
+void List_Insert(Node * head_ptr,ElementType data);
+void List_Insertn(Node * head_ptr,int n,ElementType data);
 
 
 

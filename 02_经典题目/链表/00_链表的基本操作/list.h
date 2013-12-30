@@ -27,7 +27,7 @@ typedef struct node
  *     
  *		自定义判断节点是否需要删除的函数指针。    
  */ 
-typedef bool (* remove_fn)(node const * v);
+typedef bool (* remove_fn)(Node const * v);
 
 
 Node * List_Init();

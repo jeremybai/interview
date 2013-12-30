@@ -236,6 +236,29 @@ Node * remove_if_basic(Node * head, remove_fn rm)
 	return head;
 }
 
+/** 
+ * @brief     Linus所说的删除单链表中所有满足条件的节点的方法。
+ * @param[in] head  指向头节点的二级指针
+ * @param[in] rm    自定义节点是否删除的函数指针
+ * @retval    None
+ * @see       node
+ * @note      相比于基本方法不需要维护指向前一个节点的prev指针了，
+			  也不需要再去判断是否为链表头了
+ */
+void remove_if(node ** head, remove_fn rm)
+{
+    for (node** curr = head; *curr; )
+    {
+        node * entry = *curr;
+        if (rm(entry))
+        {
+            *curr = entry->next;
+            free(entry);
+        }
+        else
+            curr = &entry->next;
+    }
+}
 /**		简单判断函数 \n  
  *     
  *		判断节点的数据是否和4相等，相等返回1，否则返回0。    
@@ -243,9 +266,20 @@ Node * remove_if_basic(Node * head, remove_fn rm)
 bool fun1(Node const * node_ptr)
 {
 	if(node_ptr->data == 4)
-		return 1;
+		return true;
 	else
-		return 0;
+		return false;
+}
+/**		简单判断函数 \n  
+ *     
+ *		判断节点的数据是否和3相等，相等返回1，否则返回0。    
+ */ 
+bool fun2(Node const * node_ptr)
+{
+	if(node_ptr->data == 3)
+		return true;
+	else
+		return false;
 }
 
 int main()
@@ -262,6 +296,8 @@ int main()
 	List_Traversal(head_ptr);
 	
 	head_ptr = remove_if_basic(head_ptr,fun1);
+	remove_if(&head_ptr,fun2);
+	
 	List_Traversal(head_ptr);
 	List_Delete(head_ptr);
 }

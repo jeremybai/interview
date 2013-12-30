@@ -39,4 +39,6 @@ void List_Insertn(Node * head_ptr,int n,ElementType data);
 void List_DeleteNode(Node * head_ptr);
 void List_DeleteNthNode(Node * head_ptr,int n);
 Node * remove_if_basic(Node * head, remove_fn rm);
+void remove_if(node ** head, remove_fn rm);
 bool fun1(Node const * node_ptr);
+bool fun2(Node const * node_ptr);

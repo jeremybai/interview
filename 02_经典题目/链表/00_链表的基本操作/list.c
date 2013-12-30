@@ -7,22 +7,34 @@
 ****************************************************************************/
 #include "list.h" 
 
-//创建空链表
-int List_Init(Node *N)
+/** 
+ * @brief     创建空链表。
+ * @param[in] 无
+ * @retval    Node *  返回创建链表的首指针。
+ * @see       Node
+ * @note      无
+ */
+Node * List_Init()
 {
-	if(N == NULL)
-		return 1;
-	if(NULL  == (N = (Node *)malloc(sizeof(Node))))
+	Node *head_ptr;
+	if(head_ptr == NULL)
+		exit(0);
+	if(NULL  == (head_ptr = (Node *)malloc(sizeof(Node))))
 	{
 		perror("error...");
-		return 1;
+		exit(0);
 	}
-	N->next = NULL;
-	
-	return 0;
+	head_ptr->next = NULL;
+	return head_ptr;
 }
 
-//输入链表个数和元素创建链表
+/** 
+ * @brief     输入链表个数和元素创建链表。
+ * @param[in] 无
+ * @retval    Node *  返回创建链表的首指针。
+ * @see       Node
+ * @note      无
+ */
 Node* List_User_Init()
 {
 	Node * Head_ptr,*Tail_ptr,*node_ptr;
@@ -54,8 +66,15 @@ Node* List_User_Init()
 	}
 	return Head_ptr;
 }
-//链表遍历
-int List_Traversal(Node * head_ptr)
+
+/** 
+ * @brief     链表遍历。
+ * @param[in] head_ptr   链表的首指针
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
+void List_Traversal(Node * head_ptr)
 {
 	if(head_ptr == NULL)
 		exit(0);
@@ -67,7 +86,14 @@ int List_Traversal(Node * head_ptr)
 	}
 	printf("\n");
 }
-//链表删除
+
+/** 
+ * @brief     删除整个链表。
+ * @param[in] head_ptr   链表的首指针
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
 void List_Delete(Node * head_ptr)
 {
 	if(head_ptr == NULL)
@@ -80,7 +106,15 @@ void List_Delete(Node * head_ptr)
 		node_ptr = next_ptr;
 	}
 }
-//链表插入
+
+/** 
+ * @brief     在链表最后插入数据。
+ * @param[in] head_ptr   链表的首指针
+ * @param[in] data       需要插入的数据
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
 void List_Insert(Node * head_ptr,ElementType data)
 {
 	if(head_ptr == NULL)
@@ -99,7 +133,16 @@ void List_Insert(Node * head_ptr,ElementType data)
 	new_ptr->next = NULL;
 	node_ptr->next = new_ptr;
 }
-//链表指定位置插入,在第n个节点之后插入
+
+/** 
+ * @brief     链表指定位置插入,在第n个节点之后插入。
+ * @param[in] head_ptr   链表的首指针
+ * @param[in] n          需要插入数据的位置
+ * @param[in] data       需要插入的数据
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
 void List_Insertn(Node * head_ptr,int n,ElementType data)
 {
 	if(head_ptr == NULL)
@@ -121,6 +164,13 @@ void List_Insertn(Node * head_ptr,int n,ElementType data)
 
 
 
+/** 
+ * @brief     删除链表最后一个节点。
+ * @param[in] head_ptr   链表的首指针
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
 void List_DeleteNode(Node * head_ptr)
 {
 	if(head_ptr == NULL)
@@ -136,7 +186,14 @@ void List_DeleteNode(Node * head_ptr)
 	node_ptr->next = NULL;
 }
 
-
+/** 
+ * @brief     删除指定位置的节点。
+ * @param[in] head_ptr   链表的首指针
+ * @param[in] n          需要删除基点的位置
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
 void List_DeleteNthNode(Node * head_ptr,int n)
 {
 	if(head_ptr == NULL || n < 0)
@@ -150,6 +207,47 @@ void List_DeleteNthNode(Node * head_ptr,int n)
 	node_ptr->next = del_ptr->next;
 	free(del_ptr);
 }
+
+/** 
+ * @brief     删除单链表中所有满足条件的节点的基本方法。
+ * @param[in] head  指向头节点的指针
+ * @param[in] rm    自定义节点是否删除的函数指针
+ * @retval    None
+ * @see       Node
+ * @note      无
+ */
+Node * remove_if_basic(Node * head, remove_fn rm)
+{
+	for(Node *prev = NULL, *curr = head ;curr != NULL; )
+	{
+		Node *next = curr->next;
+		if (rm(curr))
+		{
+			if(prev)
+				prev->next = next;    //删除的不是头结点 
+			else	
+				head =  next;        //删除的是头结点
+			free(curr);
+		}
+		else
+			prev = curr;
+		curr = next;
+	}
+	return head;
+}
+
+/**		简单判断函数 \n  
+ *     
+ *		判断节点的数据是否和4相等，相等返回1，否则返回0。    
+ */ 
+bool fun1(Node const * node_ptr)
+{
+	if(node_ptr->data == 4)
+		return 1;
+	else
+		return 0;
+}
+
 int main()
 {
 	Node * head_ptr;	
@@ -158,8 +256,12 @@ int main()
 	List_Insert(head_ptr,7);
 	List_Insertn(head_ptr,2,7);
 	List_Traversal(head_ptr);
+	
 	List_DeleteNode(head_ptr);
 	List_DeleteNthNode(head_ptr,3);
+	List_Traversal(head_ptr);
+	
+	head_ptr = remove_if_basic(head_ptr,fun1);
 	List_Traversal(head_ptr);
 	List_Delete(head_ptr);
 }

@@ -23,14 +23,20 @@ typedef struct node
 	ElementType data;
 } Node,*Node_ptr;
 
-int List_Init(Node *N);
+/**		判断节点是否需要删除的函数指针 \n  
+ *     
+ *		自定义判断节点是否需要删除的函数指针。    
+ */ 
+typedef bool (* remove_fn)(node const * v);
+
+
+Node * List_Init();
 Node* List_User_Init();
-int List_Traversal(Node * head_ptr);
-void List_Delete(Node *N);
+void List_Traversal(Node * head_ptr);
+void List_Delete(Node * head_ptr);
 void List_Insert(Node * head_ptr,ElementType data);
 void List_Insertn(Node * head_ptr,int n,ElementType data);
-
-
-
-
-
+void List_DeleteNode(Node * head_ptr);
+void List_DeleteNthNode(Node * head_ptr,int n);
+Node * remove_if_basic(Node * head, remove_fn rm);
+bool fun1(Node const * node_ptr);

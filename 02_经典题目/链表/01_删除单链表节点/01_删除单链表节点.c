@@ -66,7 +66,7 @@ node * remove_if_basic(node * head, remove_fn rm)
 		if (rm(curr))
 		{
 			if(prev)
-				prev-next = next;    //删除的不是头结点 
+				prev->next = next;    //删除的不是头结点 
 			else	
 				head =  next;        //删除的是头结点
 			free(curr);

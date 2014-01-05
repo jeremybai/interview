@@ -6,7 +6,7 @@
  * @note     
 ****************************************************************************/
 typedef int ElementType;
-
+typedef int size_t;
 struct list_head {
 	struct list_head *next, *prev;
 };
@@ -20,6 +20,7 @@ struct list_node {
 #define LIST_HEAD_INIT(name) { &(name), &(name) }
 #define LIST_HEAD(name) \
 	struct list_head name = LIST_HEAD_INIT(name)
+
 	
 //2.6的linux中，INIT_LIST_HEAD宏已经修改为内联函数
 // #define INIT_LIST_HEAD(ptr) do { \
@@ -33,19 +34,26 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
 }
 
 /*
+ * These are non-NULL pointers that will result in page faults
+ * under normal circumstances, used to verify that nobody uses
+ * non-initialized list entries.
+ */
+#define LIST_POISON1  ((void *) 0x00100100)
+#define LIST_POISON2  ((void *) 0x00200200)
+
+
+/*
  * Insert a new entry between two known consecutive entries.在两个连续的节点中间插入节点
  *
  * This is only for internal list manipulation where we know 
  * the prev/next entries already!只有在前后节点已知的情况下操作内部节点使用
  */
-static inline void __list_add(struct list_head *new,
-			      struct list_head *prev,
-			      struct list_head *next)
+static inline void __list_add(struct list_head *new_ptr, struct list_head *prev, struct list_head *next)
 {
-	next->prev = new;
-	new->next = next;
-	new->prev = prev;
-	prev->next = new;
+	next->prev = new_ptr;
+	new_ptr->next = next;
+	new_ptr->prev = prev;
+	prev->next = new_ptr;
 }
 
 /**
@@ -56,9 +64,9 @@ static inline void __list_add(struct list_head *new,
  * Insert a new entry after the specified head.在表头后面添加新节点。
  * This is good for implementing stacks.可以用来实现栈。
  */
-static inline void list_add(struct list_head *new, struct list_head *head)
+static inline void list_add(struct list_head *new_ptr, struct list_head *head)
 {
-	__list_add(new, head, head->next);
+	__list_add(new_ptr, head, head->next);
 }
 
 /**
@@ -69,11 +77,10 @@ static inline void list_add(struct list_head *new, struct list_head *head)
  * Insert a new entry before the specified head.在链表结尾添加新节点。
  * This is useful for implementing queues.可以用来实现队列。
  */
-static inline void list_add_tail(struct list_head *new, struct list_head *head)
+static inline void list_add_tail(struct list_head *new_ptr, struct list_head *head)
 {
-	__list_add(new, head->prev, head);
+	__list_add(new_ptr, head->prev, head);
 }
-
 
 /*
  * Delete a list entry by making the prev/next entries删除两个节点之间的节点。
@@ -88,6 +95,7 @@ static inline void __list_del(struct list_head * prev, struct list_head * next)
 	prev->next = next;
 }
 
+
 /**
  * list_del - deletes entry from list.
  * @entry: the element to delete from the list.
@@ -97,9 +105,10 @@ static inline void __list_del(struct list_head * prev, struct list_head * next)
 static inline void list_del(struct list_head *entry)
 {
 	__list_del(entry->prev, entry->next);
-	entry->next = LIST_POISON1;
-	entry->prev = LIST_POISON2;
+	entry->next = (struct list_head *)LIST_POISON1;
+	entry->prev = (struct list_head *)LIST_POISON2;
 }
+
 
 /**
  * list_del_init - deletes entry from list and reinitialize it.
@@ -113,6 +122,7 @@ static inline void list_del_init(struct list_head *entry)
 
 /**
  * list_move - delete from one list and add as another's head
+ * 从链表中删除节点，把它作为另外一个链表的头结点
  * @list: the entry to move
  * @head: the head that will precede our entry
  */
@@ -124,6 +134,7 @@ static inline void list_move(struct list_head *list, struct list_head *head)
 
 /**
  * list_move_tail - delete from one list and add as another's tail
+ * 从链表中删除节点，把它作为另外一个链表的尾结点
  * @list: the entry to move
  * @head: the head that will follow our entry
  */
@@ -163,6 +174,7 @@ static inline void __list_splice(struct list_head *list,
 	last->next = at;
 	at->prev = last;
 }
+
 
 /**
  * list_splice - join two lists
@@ -209,14 +221,6 @@ static inline void list_splice_init(struct list_head *list,
 /*@}*/
 
 
-/*
- * These are non-NULL pointers that will result in page faults
- * under normal circumstances, used to verify that nobody uses
- * non-initialized list entries.
- */
-#define LIST_POISON1  ((void *) 0x00100100)
-#define LIST_POISON2  ((void *) 0x00200200)
-
 
 /**
  * list_entry - get the struct for this entry
@@ -252,19 +256,16 @@ static inline void list_splice_init(struct list_head *list,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+int main()
+{
+	struct list_node listnode,*temp;
+	listnode.data = 1;
+	INIT_LIST_HEAD(&listnode.list);
+	LIST_HEAD(a);
+	list_add(&a,&listnode.list);
+	list_for_each();
+	list_entry(&temp,ElementType,data);
+}
 
 
 

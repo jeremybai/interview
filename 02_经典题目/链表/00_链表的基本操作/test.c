@@ -1,10 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+typedef struct stu
+{
+	int id;
+	int age;
+} Stu,*Stu_ptr;
+
+
 int main()
 {  
-	int i = 0,j;
-	i = ({
-			j = 9;
-	});
-	printf("%d\n",i);
+	Stu a = {10,20};
+	
+	a.id = 20;
+	a.age = 30;
+	printf("%d,%d",a.id,a.age);
 }  

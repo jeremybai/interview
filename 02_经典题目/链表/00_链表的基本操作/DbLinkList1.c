@@ -1,25 +1,42 @@
-
+/****************************************************************************
+ * @file     DbLinkList.c
+ * @brief    双向链表源文件。
+ * @version  V1.00
+ * @date     2014.1.5
+ * @note     
+****************************************************************************/
 typedef int ElementType;
 
 struct list_head {
 	struct list_head *next, *prev;
-	ElementType data;
 };
 
-#define LIST_HEAD_INIT(name) { &(name), &(name) }
+struct list_node {
+	struct list_head list;
+	ElementType	data;
+};
 
+//定义变量并且初始化节点的next和prev指针指向自己
+#define LIST_HEAD_INIT(name) { &(name), &(name) }
 #define LIST_HEAD(name) \
 	struct list_head name = LIST_HEAD_INIT(name)
 	
-#define INIT_LIST_HEAD(ptr) do { \
+//2.6的linux中，INIT_LIST_HEAD宏已经修改为内联函数
+// #define INIT_LIST_HEAD(ptr) do { \
 	(ptr)->next = (ptr); (ptr)->prev = (ptr); \
 } while (0)
+//用于给已经存在的变量赋值
+static inline void INIT_LIST_HEAD(struct list_head *list)
+{
+	list->next = list;
+	list->prev = list;
+}
 
 /*
- * Insert a new entry between two known consecutive entries.
+ * Insert a new entry between two known consecutive entries.在两个连续的节点中间插入节点
  *
- * This is only for internal list manipulation where we know
- * the prev/next entries already!
+ * This is only for internal list manipulation where we know 
+ * the prev/next entries already!只有在前后节点已知的情况下操作内部节点使用
  */
 static inline void __list_add(struct list_head *new,
 			      struct list_head *prev,
@@ -32,7 +49,7 @@ static inline void __list_add(struct list_head *new,
 }
 
 /**
- * list_add - add a new entry
+ * list_add - add a new entry 在表头后面增加一个节点
  * @new: new entry to be added
  * @head: list head to add it after
  *
@@ -45,7 +62,7 @@ static inline void list_add(struct list_head *new, struct list_head *head)
 }
 
 /**
- * list_add_tail - add a new entry
+ * list_add_tail - add a new entry在表头前面增加一个节点
  * @new: new entry to be added
  * @head: list head to add it before
  *
@@ -59,7 +76,7 @@ static inline void list_add_tail(struct list_head *new, struct list_head *head)
 
 
 /*
- * Delete a list entry by making the prev/next entries
+ * Delete a list entry by making the prev/next entries删除两个节点之间的节点。
  * point to each other.
  *
  * This is only for internal list manipulation where we know

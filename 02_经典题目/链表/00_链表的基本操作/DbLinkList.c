@@ -1,136 +1,136 @@
-struct list_head {
+/****************************************************************************
+ * @file     DbLinkList.c
+ * @brief    Ë«ÏòÁ´±íÔ´ÎÄ¼ş¡£
+ * @version  V1.00
+ * @date     2014.1.6
+ * @note     
+****************************************************************************/
+#include <stdio.h>
+#include <malloc.h>
+typedef int ElementType;
+
+typedef struct list_head {
 	struct list_head *next, *prev;
-};
+	ElementType data;
+}List_Head,*List_Head_ptr;
 
-#define LIST_HEAD_INIT(name) { &(name), &(name) }
-
+//¶¨Òå±äÁ¿²¢ÇÒ³õÊ¼»¯½ÚµãµÄnextºÍprevÖ¸ÕëÖ¸Ïò×Ô¼º
+#define LIST_HEAD_INIT(name) { &(name), &(name)}
 #define LIST_HEAD(name) \
 	struct list_head name = LIST_HEAD_INIT(name)
 	
-#define INIT_LIST_HEAD(ptr) do { \
-	(ptr)->next = (ptr); (ptr)->prev = (ptr); \
-} while (0)
-
-/*
- * Insert a new entry between two known consecutive entries.
- *
- * This is only for internal list manipulation where we know
- * the prev/next entries already!
- */
-static inline void __list_add(struct list_head *new,
-			      struct list_head *prev,
-			      struct list_head *next)
+//ÓÃÓÚ½«ÒÑ¾­´æÔÚµÄ±äÁ¿µÄ³ÉÔ±Ö¸ÕëÖ¸Ïò×Ô¼º
+void List_Head_Init(List_Head_ptr list)
 {
-	next->prev = new;
-	new->next = next;
-	new->prev = prev;
-	prev->next = new;
+	list->next = list;
+	list->prev = list;
 }
-
-/**
- * list_add - add a new entry
- * @new: new entry to be added
- * @head: list head to add it after
- *
- * Insert a new entry after the specified head.åœ¨è¡¨å¤´åé¢æ·»åŠ æ–°èŠ‚ç‚¹ã€‚
- * This is good for implementing stacks.å¯ä»¥ç”¨æ¥å®ç°æ ˆã€‚
+/** 
+ * @brief     ÔÚÁ½¸öÁ¬ĞøµÄ½ÚµãÖĞ¼ä²åÈë½Úµã¡£
+ * @param[in] list  Á´±íµÄ±íÍ·
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      Ö»ÓĞÔÚÇ°ºó½ÚµãÒÑÖªµÄÇé¿öÏÂ²Ù×÷ÄÚ²¿½ÚµãÊ¹ÓÃ
  */
-static inline void list_add(struct list_head *new, struct list_head *head)
+void List_Head_Add(List_Head_ptr list)
 {
-	__list_add(new, head, head->next);
-}
-
-/**
- * list_add_tail - add a new entry
- * @new: new entry to be added
- * @head: list head to add it before
- *
- * Insert a new entry before the specified head.åœ¨é“¾è¡¨ç»“å°¾æ·»åŠ æ–°èŠ‚ç‚¹ã€‚
- * This is useful for implementing queues.å¯ä»¥ç”¨æ¥å®ç°é˜Ÿåˆ—ã€‚
- */
-static inline void list_add_tail(struct list_head *new, struct list_head *head)
-{
-	__list_add(new, head->prev, head);
+	list->next = list;
+	list->prev = list;
 }
 
 
-/*
- * Delete a list entry by making the prev/next entries
- * point to each other.
- *
- * This is only for internal list manipulation where we know
- * the prev/next entries already!
+/** 
+ * @brief     ÔÚ±íÍ·ºóÃæÔö¼ÓÒ»¸ö½Úµã£¬ÄÚ²¿º¯Êı¡£
+ * @param[in] new_ptr  ĞèÒªÔö¼ÓµÄ½ÚµãÖ¸Õë£¬
+ * @param[in] prev     ²åÈëÎ»ÖÃµÄÇ°Ò»¸ö½ÚµãÖ¸Õë
+ * @param[in] next     ²åÈëÎ»ÖÃµÄºóÒ»¸ö½ÚµãÖ¸Õë
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      
  */
-static inline void __list_del(struct list_head * prev, struct list_head * next)
+static inline void __list_add(List_Head_ptr new_ptr, List_Head_ptr prev, List_Head_ptr next)
+{
+	next->prev = new_ptr;
+	new_ptr->next = next;
+	new_ptr->prev = prev;
+	prev->next = new_ptr;
+}
+
+
+/** 
+ * @brief     ÔÚ±íÍ·ºóÃæÔö¼ÓÒ»¸ö½Úµã¡£
+ * @param[in] new_ptr  ĞèÒªÔö¼ÓµÄ½ÚµãÖ¸Õë£¬
+ * @param[in] head     Á´±íÍ·Ö¸Õë
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      ÔÚ±íÍ·ºóÃæÌí¼ÓĞÂ½Úµã£¬¿ÉÒÔÓÃÀ´ÊµÏÖÕ»¡£
+ */
+void list_add(List_Head_ptr new_ptr, List_Head_ptr head)
+{
+	__list_add(new_ptr, head, head->next);
+}
+
+
+/** 
+ * @brief     ÔÚ±íÍ·Ç°ÃæÔö¼ÓÒ»¸ö½Úµã¡£
+ * @param[in] new_ptr  ĞèÒªÔö¼ÓµÄ½ÚµãÖ¸Õë£¬
+ * @param[in] head     Á´±íÍ·Ö¸Õë
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      ÔÚÁ´±í½áÎ²Ìí¼ÓĞÂ½Úµã£¬¿ÉÒÔÓÃÀ´ÊµÏÖ¶ÓÁĞ¡£
+ */
+void list_add_tail(List_Head_ptr new_ptr, List_Head_ptr head)
+{
+	__list_add(new_ptr, head->prev, head);
+}
+
+/** 
+ * @brief     É¾³ıÁ½¸ö½ÚµãÖ®¼äµÄ½Úµã£¬ÄÚ²¿º¯Êı
+ * @param[in] prev     É¾³ıÎ»ÖÃµÄÇ°Ò»¸ö½ÚµãÖ¸Õë
+ * @param[in] next     É¾³ıÎ»ÖÃµÄºóÒ»¸ö½ÚµãÖ¸Õë
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      ÔÚÁ´±íÖ¸¶¨Î»ÖÃÉ¾³ı½Úµã¡£
+ */
+static inline void __list_del(List_Head_ptr prev, List_Head_ptr next)
 {
 	next->prev = prev;
 	prev->next = next;
 }
 
-/**
- * list_del - deletes entry from list.
- * @entry: the element to delete from the list.
- * Note: list_empty on entry does not return true after this, the entry is
- * in an undefined state.
+/** 
+ * @brief     É¾³ı½Úµã¡£
+ * @param[in] entry   ĞèÒªÉ¾³ıµÄ½ÚµãÖ¸Õë
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      ÔÚÁ´±íÖ¸¶¨Î»ÖÃÉ¾³ı½Úµã¡£
  */
-static inline void list_del(struct list_head *entry)
+static void list_del(List_Head_ptr entry)
 {
 	__list_del(entry->prev, entry->next);
-	entry->next = LIST_POISON1;
-	entry->prev = LIST_POISON2;
+	free(entry);
+	entry = NULL;
 }
 
-/**
- * list_del_init - deletes entry from list and reinitialize it.
- * @entry: the element to delete from the list.
+/**   ÅĞ¶ÏÁ´±íÊÇ·ñÎª¿Õ \n
+ *  
+ *    Èô¸Ã½ÚµãµÄnextÖ¸ÕëÖ¸Ïò×Ô¼º¼´Îª¿ÕÁ´±í
  */
-static inline void list_del_init(struct list_head *entry)
-{
-	__list_del(entry->prev, entry->next);
-	INIT_LIST_HEAD(entry);
-}
-
-/**
- * list_move - delete from one list and add as another's head
- * @list: the entry to move
- * @head: the head that will precede our entry
- */
-static inline void list_move(struct list_head *list, struct list_head *head)
-{
-        __list_del(list->prev, list->next);
-        list_add(list, head);
-}
-
-/**
- * list_move_tail - delete from one list and add as another's tail
- * @list: the entry to move
- * @head: the head that will follow our entry
- */
-static inline void list_move_tail(struct list_head *list,
-				  struct list_head *head)
-{
-        __list_del(list->prev, list->next);
-        list_add_tail(list, head);
-}
-
-/**
- * list_empty - tests whether a list is empty
- * @head: the list to test.
- */
-static inline int list_empty(const struct list_head *head)
+static inline int list_empty(const List_Head_ptr head)
 {
 	return head->next == head;
 }
 
-/**
- * __list_splice - å°†ä¸¤ä¸ªé“¾è¡¨é“¾æ¥
- * @list: è¢«é“¾æ¥çš„é“¾è¡¨.
- * @head: è¢«é“¾æ¥çš„é“¾è¡¨ï¼Œä½œä¸ºè¡¨å¤´
- * listçš„ç¬¬ä¸€ä¸ªèŠ‚ç‚¹ä½œä¸ºé¦–èŠ‚ç‚¹ï¼Œheadçš„å°¾èŠ‚ç‚¹ä½œä¸ºå°¾èŠ‚ç‚¹ï¼Œåˆå¹¶åheadä½œä¸ºè¡¨å¤´
- * http://www.ibm.com/developerworks/cn/linux/kernel/l-chain/
+/** 
+ * @brief     ½«Á½¸öÁ´±íÁ´½Ó¡£
+ * @param[in] list   ĞÂ¼ÓÈëµÄÁ´±í
+ * @param[in] head   ±»Á´½ÓµÄÁ´±í£¬×÷Îª±íÍ·
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      listµÄµÚÒ»¸ö½Úµã×÷ÎªÊ×½Úµã£¬headµÄÎ²½Úµã×÷ÎªÎ²½Úµã£¬ºÏ²¢ºóhead×÷Îª±íÍ·¡£
+ *            ²Î¿¼http://www.ibm.com/developerworks/cn/linux/kernel/l-chain/
  */
-static inline void __list_splice(struct list_head *list,
-				 struct list_head *head)
+static inline void __list_splice(List_Head_ptr list, List_Head_ptr head)
 {
 	struct list_head *first = list->next;
 	struct list_head *last = list->prev;
@@ -143,113 +143,78 @@ static inline void __list_splice(struct list_head *list,
 	at->prev = last;
 }
 
-/**
- * list_splice - join two lists
- * @list: the new list to add.
- * @head: the place to add it in the first list.
+
+/** 
+ * @brief     ½«Á½¸öÁ´±íÁ´½Ó¡£
+ * @param[in] list   ĞÂ¼ÓÈëµÄÁ´±í
+ * @param[in] head   ±»Á´½ÓµÄÁ´±í£¬×÷Îª±íÍ·
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      listµÄµÚÒ»¸ö½Úµã×÷ÎªÊ×½Úµã£¬headµÄÎ²½Úµã×÷ÎªÎ²½Úµã£¬ºÏ²¢ºóhead×÷Îª±íÍ·¡£
+ *            ²Î¿¼http://www.ibm.com/developerworks/cn/linux/kernel/l-chain/
  */
-static inline void list_splice(struct list_head *list, struct list_head *head)
+void list_splice(List_Head_ptr list, List_Head_ptr head)
 {
 	if (!list_empty(list))
 		__list_splice(list, head);
 }
 
-/**
- * list_splice_init - join two lists and reinitialise the emptied list.
- * @list: the new list to add.
- * @head: the place to add it in the first list.
- *
- * The list at @list is reinitialised
- */
-static inline void list_splice_init(struct list_head *list,
-				    struct list_head *head)
-{
-	if (!list_empty(list)) {
-		__list_splice(list, head);
-		INIT_LIST_HEAD(list);
-	}
-}
-
-/**
- * Get offset of a memberï¼Œè·å¾—TYPEç±»å‹ç»“æ„ä½“ä¸­MEMBERæˆå‘˜çš„åç§»
- */
-#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
-
-/**
- * Casts a member of a structure out to the containing structure
- * @param ptr        the pointer to the member.
- * @param type       the type of the container struct this is embedded in.
- * @param member     the name of the member within the struct.
- * é€šè¿‡list_headæˆå‘˜æŒ‡é’ˆptrå¾—åˆ°ç»“æ„ä½“çš„åœ°å€
- */
-#define container_of(ptr, type, member) ({                      \
-        const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
-        (type *)( (char *)__mptr - offsetof(type,member) );})
-/*@}*/
-
-
-/*
- * These are non-NULL pointers that will result in page faults
- * under normal circumstances, used to verify that nobody uses
- * non-initialized list entries.
- */
-#define LIST_POISON1  ((void *) 0x00100100)
-#define LIST_POISON2  ((void *) 0x00200200)
-
-
-/**
- * list_entry - get the struct for this entry
- * @ptr:	the &struct list_head pointer.
- * @type:	the type of the struct this is embedded in.
- * @member:	the name of the list_struct within the struct.
- */
-#define list_entry(ptr, type, member) \
-	container_of(ptr, type, member)
-	
-/**
- * list_for_each	-	iterate over a list
- * @pos:	the &struct list_head to use as a loop counter.
- * @head:	the head for your list.
- */
-
-#define list_for_each(pos, head) \
-  for (pos = (head)->next;prefetch(pos->next), pos != (head);	\
-       pos = pos->next)
-	   
-/**
- * __list_for_each	-	iterate over a list
- * @pos:	the &struct list_head to use as a loop counter.
- * @head:	the head for your list.
- *
- * This variant differs from list_for_each() in that it's the
- * simplest possible list iteration code, no prefetching is done.
- * Use this for code that knows the list to be very short (empty
- * or 1 entry) most of the time.
- */
 #define __list_for_each(pos, head) \
 	for (pos = (head)->next; pos != (head); pos = pos->next)
 
+/** 
+ * @brief     ±éÀúÕû¸öÁ´±í
+ * @param[in] head     ĞèÒª±éÀúµÄÁ´±í±íÍ·
+ * @retval    None
+ * @see       List_Head_ptr
+ * @note      
+ */
+static void list_traversal(List_Head_ptr head)
+{
+	List_Head_ptr pos;
+	__list_for_each(pos,head)
+	{
+		printf("%d   ",pos->data);
+	}
+}
+	
+int main()
+{
+	int num;
+	LIST_HEAD(HEAD1);	
+	LIST_HEAD(HEAD2);
+	List_Head_ptr head1 = &HEAD1,head2 = &HEAD2, node_ptr;
+	printf("ÇëÊäÈëÁ´±í1ÔªËØÊıÄ¿£º\n");
+	scanf("%d",&num);
+	printf("ÇëÊäÈëÁ´±íÔªËØ£º\n");	
+	for(int i = 0; i < num; i++)
+	{
+		if(NULL  == (node_ptr = (List_Head_ptr)malloc(sizeof(struct list_head))))
+		{
+			perror("error...");
+			exit(0);
+		}
+		List_Head_Init(node_ptr);   //³õÊ¼»¯³ÉÔ±Ö¸Õë
+		scanf("%d",&node_ptr->data);//³õÊ¼»¯Êı¾İÓò
+		list_add_tail(node_ptr,head1);
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	printf("ÇëÊäÈëÁ´±í2ÔªËØÊıÄ¿£º\n");
+	scanf("%d",&num);
+	printf("ÇëÊäÈëÁ´±íÔªËØ£º\n");	
+	for(int i = 0; i < num; i++)
+	{
+		if(NULL  == (node_ptr = (List_Head_ptr)malloc(sizeof(struct list_head))))
+		{
+			perror("error...");
+			exit(0);
+		}
+		List_Head_Init(node_ptr);   //³õÊ¼»¯³ÉÔ±Ö¸Õë
+		scanf("%d",&node_ptr->data);//³õÊ¼»¯Êı¾İÓò
+		list_add_tail(node_ptr,head2);
+	}
+	
+	printf("½«Á´±í1Á´½Óµ½Á´±í2£º\n");
+	list_splice(head1,head2);
+	list_traversal(head2);
+}

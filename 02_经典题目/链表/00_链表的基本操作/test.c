@@ -9,10 +9,14 @@ typedef struct stu
 
 
 int main()
-{  
-	Stu a = {10,20};
-	
-	a.id = 20;
-	a.age = 30;
-	printf("%d,%d",a.id,a.age);
+{
+	Stu a;
+	stu *b = &a;
+	a.id = 2;
+	(&a)->age = 10;
+	(*b).id = 2;
+	b->age = 10;
+	printf("%d,%d\n",a.id,a.age);
+		printf("%d,%d",b->id,b->age);
 }  
+

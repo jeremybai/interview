@@ -258,13 +258,7 @@ static inline void list_splice_init(struct list_head *list,
 
 int main()
 {
-	struct list_node listnode,*temp;
-	listnode.data = 1;
-	INIT_LIST_HEAD(&listnode.list);
-	LIST_HEAD(a);
-	list_add(&a,&listnode.list);
-	list_for_each();
-	list_entry(&temp,ElementType,data);
+
 }
 
 

@@ -42,3 +42,4 @@ Node * remove_if_basic(Node * head, remove_fn rm);
 void remove_if(node ** head, remove_fn rm);
 bool fun1(Node const * node_ptr);
 bool fun2(Node const * node_ptr);
+void List_DeleteNode(Node_ptr head_ptr, Node_ptr ToBeDel);

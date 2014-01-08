@@ -282,6 +282,46 @@ bool fun2(Node const * node_ptr)
 		return false;
 }
 
+
+/** 
+ * @brief     删除链表中给定指针指向的节点。
+ * @param[in] head_ptr   链表的首指针
+ * @param[in] head_ptr   需要删除的节点的指针
+ * @retval    None
+ * @see       Node
+ * @note      O(1)时间删除链表中节点
+ */
+void List_DeleteNode(Node_ptr head_ptr, Node_ptr ToBeDel)
+{
+	if(head_ptr == NULL || ToBeDel == NULL)
+		return ;
+	else if(head_ptr->next == NULL)
+	{
+		free(head_ptr);
+		head_ptr = NULL;
+	}
+	else if(ToBeDel->next == NULL) 
+	{
+		Node_ptr pNode = head_ptr;
+		while(pNode->next != ToBeDel)
+		{
+			pNode = pNode->next;
+		}
+		pNode->next = NULL;
+		free(ToBeDel);
+		ToBeDel = NULL;
+	}
+	else
+	{
+		Node_ptr ToBeDelNext = ToBeDel->next;
+		ToBeDel->data = ToBeDelNext->data;
+		ToBeDel->next = ToBeDelNext->next;
+		free(ToBeDelNext);		
+		ToBeDelNext = NULL;
+	}
+}
+
+
 int main()
 {
 	Node * head_ptr;	

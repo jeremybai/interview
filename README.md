@@ -1,5 +1,5 @@
 # interview #
-这个项目收录了在准备面试的过程中积累的知识和一些经典的笔试题,总共由四个部分组成，目录结构如下：
+这个项目收录了在准备笔试的过程中积累的知识和一些经典的笔试题,总共由四个部分组成，目录结构如下：
 
      interview   
     	|-----01_基础知识   
@@ -64,9 +64,9 @@
      */ 
     typedef struct treenode
     {
-    	int data;					/**< 节点数据 */  
+    	int data;					    /**< 节点数据 */  
     	struct treenode* leftchild;		/**< 左孩子节点指针 */  
-    	struct treenode* rightchild;		/**< 右孩子节点指针 */  
+    	struct treenode* rightchild;    /**< 右孩子节点指针 */  
     } TreeNode, *TreeNode_ptr;
 
 #### 1.3.2 枚举注释 ####

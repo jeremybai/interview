@@ -13,7 +13,7 @@
  * @brief    二叉树基本操作头文件 
  * @version  V1.00
  * @date     2013.12.25
- * @note     无
+ * @note     None
 ****************************************************************************/
 
 
@@ -34,7 +34,7 @@
  * @param[in] T  根节点指针
  * @retval    None
  * @see       TreeNode
- * @note      无
+ * @note      None
  */
  void Preorder_Traversal(TreeNode *T);
  

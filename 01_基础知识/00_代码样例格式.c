@@ -41,13 +41,13 @@
  
  //3 简单注释，用于一些参数和返回都为空的简单函数，类，结构体，枚举等。
  /**    Brief description  
- *    description continued \n 
+ *    description continued  
  *  
  *    Detailed description starts here.  
  */ 
 //举例
 //3.1结构体
-/**		树节点结构体定义 \n  
+/**		树节点结构体定义   
  *     
  *		定义树节点所包含的成员变量。    
  */ 

@@ -10,6 +10,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+
+int count(int n)
+{
+	int count = 0;
+	while(n != 0)
+	{
+		n = n & (n-1);
+		count++;
+	}
+	return count;
+}
+
 /** 
  * @brief     计算元素在HASH表中的位置。
  * @param[in] n:0的个数  m:1的个数 k:序号

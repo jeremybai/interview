@@ -2,7 +2,7 @@
  * @file     answer.c
  * @brief    题目参考description
  * @version  V1.00
- * @date     2014年5月4日
+ * @date     2014年4月14日
  * @note     思路1：全排列的字典序生成算法
 					设P是[1,n]的一个全排列。
 					P=P1P2…Pn=P1P2…Pj-1PjPj+1…Pk-1PkPk+1…Pn
@@ -72,9 +72,26 @@ int reverse(char *begin, char *end,int len)
 
 int main(void) 
 {
-	long long num = 0, ordinal = 0;
-	int num_zero, num_one,i,j,k,left,right,sum;
-	while(scanf("%d", &num) != EOF) {
+    long long num = 0, ordinal = 0;
+	int num_zero, num_one,i,j,k,left,right,sum,len;
+	char *ptr;
+	//输入字符串以及长度
+	while(scanf("%d", &len) != EOF) {
+		if(NULL == (ptr = (char *)malloc(sizeof(char)*(len)+1)))
+		{
+			perror("申请内存出错！\n");
+		}
+		if(scanf("%s", ptr) != EOF)
+		{
+			
+		}
+		free(ptr);
+		ptr = NULL;
+	}
+	while(1)
+	{}
+	
+    while(scanf("%d", &num) != EOF) {
 		while(num--)
 		{
 			scanf("%d%d%d", &num_zero, &num_one, &ordinal);
@@ -139,6 +156,6 @@ int main(void)
 			}
 		}
 
-	}
-	return 0;
+    }
+    return 0;
 }

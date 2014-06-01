@@ -3,90 +3,98 @@
  * @brief    归并序算法实现。
  * @version  V1.00
  * @date     2014.5.25
- * @note      
+ * @note     最好最坏时间复杂度都是O(nlgn)，空间复杂度O(n)，赋值操作的次
+			 数是(2nlogn)，平均比较次数O(nlgn)，最好比较次数O(？？)：最坏
+			比较次数O(nlgn/2)
 ****************************************************************************/
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-/**		内部函数  
- *     
- *		用于两个数进行交换。    
- */ 
 
 /** 
  * @brief     归并排序函数实现从小到大排序。
- * @param[in] a  数组起始地址
- * @param[in] n  数组大小
- * @retval    None
+ * @param[in] array  原始数组指针
+ * @param[in] temp   用于存放排序的数组
+ * @param[in] begin  数组起始位置
+ * @param[in] end    数组结束位置
+ * @retval    错误码 0代表成功 1代表参数错误
  * @see       None
  * @note      		  
  */
-int _mergeSort(int *arr, int *temp, int left, int right)
+int MergeSort(int *array, int *temp, int begin, int end)
 {
-	int mid;
-	if (right > left)
+	if(NULL == array || NULL == temp )
 	{
-		/* Divide the array into two parts and call _mergeSortAndCountInv()
-	for each of the parts */
-		mid = (right + left)/2;
-
-		/* Inversion count will be sum of inversions in left-part, right-part
-	and number of inversions in merging */
-		_mergeSort(arr, temp, left, mid);
-		_mergeSort(arr, temp, mid+1, right);
-
-		/*Merge the two parts*/
-		Merge(arr, temp, left, mid+1, right);
+		printf("参数错误!\n");
+		return 1;
+	}
+	int mid;
+	if(begin < end)
+	{
+		//将数组分成两部分，分别进行归并排序，再将两个排好序的数组进行合并
+		mid = (begin + end)/2;
+		MergeSort(array, temp, begin, mid);
+		MergeSort(array, temp, mid + 1, end);
+		Merge(array, temp, begin, mid + 1, end);
+	}
+	return 0;
+}
+/** 
+ * @brief     归并排序函数实现从小到大排序。
+ * @param[in] array  原始数组指针
+ * @param[in] temp   用于存放排序的数组
+ * @param[in] begin  数组起始位置
+ * @param[in] mid    第二个数组起始位置
+ * @param[in] end    数组结束位置
+ * @retval    错误码 0代表成功 1代表参数错误
+ * @see       None
+ * @note      		  
+ */
+int Merge(int *array, int *temp, int begin, int mid, int end)
+{
+	if(NULL == array || NULL == temp )
+	{
+		printf("参数错误!\n");
+		return 1;
+	}
+	int i = begin;
+	int j= mid;
+	int k = begin;
+	//将两个数组依次进行比较，把小的存放至temp数组，再将temp数组拷贝至array
+	while((i <= mid - 1) && (j <= end))
+	{
+		if(array[i] <= array[j])
+		{
+			temp[k++] = array[i++];
+		}
+		else
+		{
+			temp[k++] = array[j++];
+		}
+	}
+	while(i <= mid-1)
+	{
+		temp[k++] = array[i++];
+	}
+	while(j <= end)
+	{
+		temp[k++] = array[j++];
+	}
+	for(i = begin; i <= end; i++)
+	{
+		array[i] = temp[i];
 	}
 	return 0;
 }
 
-int Merge(int *arr, int *temp, int left, int mid, int right)
-{
-	int i, j, k;
-	int inv_count = 0;
-
-	i = left; /* i is index for left subarray*/
-	j = mid;  /* i is index for right subarray*/
-	k = left; /* i is index for resultant merged subarray*/
-	while ((i <= mid - 1) && (j <= right))
-	{
-		if (arr[i] <= arr[j])
-		{
-			temp[k++] = arr[i++];
-		}
-		else
-		{
-			temp[k++] = arr[j++];
-		}
-	}
-
-	/* Copy the remaining elements of left subarray
-(if there are any) to temp*/
-	while (i <= mid - 1)
-	temp[k++] = arr[i++];
-
-	/* Copy the remaining elements of right subarray
-(if there are any) to temp*/
-	while (j <= right)
-	temp[k++] = arr[j++];
-
-	/*Copy back the merged elements to original array*/
-	for (i=left; i <= right; i++)
-	arr[i] = temp[i];
-}
-
 int main()
 {
-	int ForSort[10] = {9,8,7,6,5,4,3,2,1,0},i;
-	int ForSort1[10] = {0,1,2,3,4,5,6,7,8,9};
-	int ForSort2[10] = {3,2,1,0,4,5,6,7,8,9};
+	int ForSort2[10] = {3,2,1,0,4,5,6,7,8,9},i;
 	int *p = (int*)malloc(10*sizeof(int));
-	_mergeSort(ForSort2,p,0,9);
+	MergeSort(ForSort2,p,0,9);
 	for(i = 0; i < 10; i++)
 	{
 		printf("%d   ",ForSort2[i]);
 	}
 	printf("\n");
 }
-

@@ -2,14 +2,16 @@
  * @file     answer.c
  * @brief    见description
  * @version  V2.00
- * @date     2014年6月5日
+ * @date     2014年5月3日
  * @note     V1 采用计算编辑距离的方法,模板采用二维数组存放。
 			 V2 模板采用指针数组存放。
 ****************************************************************************/
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#define MAX_NUM 100
+
+#define MAX_NUM 20000
+
 /**		求最小值   
  *     
  *		求三个数中最小的一个。    
@@ -80,6 +82,7 @@ int main()
 		flag = 0;
 		for(i = 0; i < MAX_NUM && count[i] != -1; i++)
 		{
+			//如果编辑距离小于5，说明是同一个模板
 			if(CalEditDist(temp,length,template[i],len[i]) <= 5)
 			{
 				count[i]++;
@@ -87,7 +90,7 @@ int main()
 				break;
 			}
 		}
-		//如果在模板列表中没有找到对应的模板
+		//如果在模板列表中没有找到对应的模板，则新建一个模板
 		if(!flag)
 		{
 			template[i] = temp;
@@ -106,5 +109,4 @@ int main()
 	printf("%d ",max);
 	free(temp);
 	temp = NULL;
-	//printf("%d",CalEditDist(a,sizeof(a)/sizeof(char)-1,b,sizeof(b)/sizeof(char)-1));	
 }

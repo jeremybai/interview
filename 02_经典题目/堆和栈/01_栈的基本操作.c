@@ -2,142 +2,161 @@
  * @file     01_栈的基本操作.c
  * @brief    实现栈的基本操作 
  * @version  V1.00
- * @date     2013.12.25
- * @note     创建，前序，中序，后序遍历
+ * @date     2014.7.11
+ * @note     push,pop
 ****************************************************************************/
-#include "stdio.h"
-#include "malloc.h"
+#include <stdio.h>
+#include <malloc.h>
 
-/**		节点数据类型  
+/**		节点数据类型 \n  
  *     
  *		定义节点数据类型。    
  */
-typedef char ElementType;
-
-
-/**		树节点结构体定义  
+typedef int ElementType;
+typedef int* ElementType_ptr;
+/**		链表结构体定义 \n  
  *     
- *		定义树节点所包含的成员变量。    
+ *		定义链表节点所包含的成员变量，包含指向下一个节点的指针和当前节点的值。    
  */ 
-typedef struct treenode
+typedef struct node 
 {
-	int data;					/**< 节点数据 */  
-	struct treenode* leftchild;		/**< 左孩子节点指针 */  
-	struct treenode* rightchild;		/**< 右孩子节点指针 */  
-} TreeNode, *TreeNode_ptr;
+	struct node * next;
+	ElementType data;
+} Node,*Node_ptr;
+
 
 /** 
- * @brief   使用先序遍历创建二叉树。
- * @param   None
- * @retval  TreeNode* 创建的树节点。
- * @see     TreeNode;
- * @note    scanf函数的问题：scanf会读入回车符，当需要一个一个的输入字符时，
-			可以在%c前面加个空格
+ * @brief     在链表最后插入数据。
+ * @param[in] head_ptr   链表的首指针
+ * @param[in] data       需要插入的数据
+ * @retval    指向新插入的节点
+ * @see       Node,Node_ptr
+ * @note      无
  */
-TreeNode* Create_Binarytree()
+Node_ptr List_Insert(Node * head_ptr,ElementType_ptr data)
 {
-    ElementType ch;
-    TreeNode* T;
-    scanf("%c",&ch);    //这样调用scanf时，树的结点一次全部输入，如果要一次一个的输入，在%c前加个空格
-    if(ch != '#')
-    {
-		if(NULL == (T = (TreeNode*)malloc(sizeof(TreeNode))))
+	Node * node_ptr = head_ptr,*new_ptr;
+	if(head_ptr != NULL)
+	{
+		while(node_ptr->next != NULL)
 		{
-			perror("error...");
-			exit(1);
+			node_ptr = node_ptr->next;
 		}
-        T->data = ch;
-        T->leftchild = Create_Binarytree();
-        T->rightchild = Create_Binarytree();
-    }
-    else
-    {
-        T = NULL;
-    }
-    return T;
+	}
+	if(NULL  == (new_ptr = (Node *)malloc(sizeof(Node))))
+	{
+		perror("error...");
+		exit(0);
+	}	
+	new_ptr->data = *data;
+	new_ptr->next = NULL;
+	node_ptr->next = new_ptr;
+	return new_ptr;
+}
+
+
+/** 
+ * @brief     删除链表最后一个节点。
+ * @param[in] head_ptr   链表的首指针
+ * @retval    指向删除之后最后一个节点
+ * @see       Node
+ * @note      无
+ */
+Node_ptr List_DeleteNode(Node * head_ptr,ElementType_ptr data)
+{
+	if(head_ptr == NULL)
+		return NULL;
+	else if(head_ptr->next == NULL)
+			head_ptr = NULL;
+	Node * node_ptr = head_ptr;	
+	while(node_ptr->next->next != NULL)
+	{
+		node_ptr = node_ptr->next;
+	}
+	*data = node_ptr->next->data;
+	free(node_ptr->next);
+	node_ptr->next = NULL;
+	return node_ptr;
 }
 
 /** 
- * @brief   使用先序遍历二叉树。
- * @param[in]   T	根节点指针
- * @retval  None。
- * @see     TreeNode;
- * @note    先序遍历二叉树。
+ * @brief     栈初始化。
+ * @param[in] ptr   栈底指针
+ * @param[in] data       需要插入的数据
+ * @retval    返回栈顶指针
+ * @see       Node,Node_ptr
+ * @note      无
  */
-void Preorder_Traversal(TreeNode *T)
+Node_ptr Stack_Init(ElementType_ptr data)
 {
-    ElementType data;
-    if(T!=NULL)
-    {
-        data=T->data;
-        printf("%c ",data);
-        Preorder_Traversal(T->leftchild);
-        Preorder_Traversal(T->rightchild);
-    }
-}
-/** 
- * @brief   使用中序遍历二叉树。
- * @param[in]   T	根节点指针
- * @retval  None。
- * @see     TreeNode;
- * @note   中序遍历二叉树。
- */
-void Inorder_Traversal(TreeNode *T)
-{
-    ElementType data;
-    if(T!=NULL)
-    {
-        Inorder_Traversal(T->leftchild);
-		data=T->data;
-        printf("%c ",data);
-        Inorder_Traversal(T->rightchild);
-    }
+	Node_ptr ptr; 
+	if(NULL != (ptr = (Node *)malloc(sizeof(Node))))
+	{
+		ptr->next = NULL;
+		ptr->data = *data;	
+	}
+	return ptr;
 }
 
 /** 
- * @brief   使用后序遍历二叉树。
- * @param[in]   T	根节点指针
- * @retval  None。
- * @see     TreeNode;
- * @note    后序遍历二叉树。
+ * @brief     栈初始化。
+ * @param[in] ptr   栈底指针的指针
+ * @param[in] data       需要插入的数据
+ * @retval    返回栈顶指针
+ * @see       Node,Node_ptr
+ * @note      使用指针的指针作为参数使得在函数中可以修改传入的栈底指针
  */
-void Postorder_Traversal(TreeNode *T)
+Node_ptr Stack_Init1(Node_ptr *ptr,ElementType_ptr data)
 {
-    ElementType data;
-    if(T!=NULL)
-    {
-        Postorder_Traversal(T->leftchild);
-        Postorder_Traversal(T->rightchild);
-		data=T->data;
-        printf("%c ",data);
-    }
+	if(NULL != (*ptr = (Node *)malloc(sizeof(Node))))
+	{
+		(*ptr)->next = NULL;
+		(*ptr)->data = *data;	
+	}
+	return *ptr;
 }
- 
+
 /** 
- * @brief   返回输入的树的镜像。
- * @param[in]   T：输入的树的指针
- * @retval  返回树的镜像
- * @see     TreeNode;
- * @note    递归实现
+ * @brief     在栈顶压入数据。
+ * @param[in] ptr   栈底指针
+ * @param[in] data       需要插入的数据
+ * @retval    返回栈顶指针
+ * @see       Node,Node_ptr
+ * @note      无
  */
-void TreeMirror(TreeNode_ptr T)
+Node_ptr Push(Node_ptr ptr,ElementType_ptr data)
 {
-	if(NULL == T)
-		return ;
-	if(NULL == T->leftchild && NULL == T->rightchild)
-		return ;
-	TreeMirror(T->leftchild);
-	TreeMirror(T->rightchild);
+	return List_Insert(ptr,data);
+}
+/** 
+ * @brief     在栈顶弹出数据。
+ * @param[in] ptr   栈底指针
+ * @param[in] data       需要弹出的数据
+ * @retval    返回栈顶指针，data返回弹出的数据
+ * @see       Node,Node_ptr
+ * @note      无
+ */
+Node_ptr Pop(Node_ptr ptr,ElementType_ptr data)
+{
+	return List_DeleteNode(ptr,data);
+}
+
+
+int main(Node_ptr)
+{
+	Node_ptr ptr_bottom,ptr_top;
+	ElementType data = 1;
+	//ptr_bottom = Stack_Init(&data);
+	//ptr_top = ptr_bottom;
+	ptr_top = Stack_Init1(&ptr_bottom,&data);
 	
-	TreeNode_ptr temp = T->leftchild;
-	T->leftchild = T->rightchild;
-	T->rightchild = temp;
-}
- 
-int main()
-{
-	TreeNode_ptr T1,T2;
-	T1 = Create_Binarytree();
-	TreeMirror(T1);
-	Preorder_Traversal(T1);
+	for(int i = 0; i < 10;i ++)
+	{
+		ptr_top = Push(ptr_bottom, &i);
+	}
+	for(int i = 0; i < 10;i ++)
+	{
+		ptr_top = Pop(ptr_bottom, &data);
+		printf("%d",data);
+	}
 }

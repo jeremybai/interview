@@ -1,9 +1,10 @@
 /****************************************************************************
-* @file     02_二叉树的深度.c
-* @brief    求二叉树的深度 
+* @file     03_判断是不是平衡二叉树.c
+* @brief    判断是不是平衡二叉树
 * @version  V1.00
-* @date     2013.12.25
-* @note     
+* @date     2014.9.2
+* @note     输入一个二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中
+			任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
 ****************************************************************************/
 #include "stdio.h"
 #include "malloc.h"
@@ -37,7 +38,7 @@ TreeNode* Create_Binarytree()
 {
 	ElementType ch;
 	TreeNode* T;
-	scanf(" %c",&ch);    //这样调用scanf时，树的结点一次全部输入，如果要一次一个的输入，在%c前加个空格
+	scanf(" %c",&ch);
 	if(ch != '#')
 	{
 		if(NULL == (T = (TreeNode*)malloc(sizeof(TreeNode))))
@@ -73,8 +74,63 @@ int BinaryTreeDepth(TreeNode_ptr T)
 	return (leftdepth > rightdepth) ? leftdepth+1 : rightdepth+1;
 }
 
+/** 
+* @brief   判断是不是平衡二叉树。
+* @param   T：输入二叉树的根节点
+* @retval  0：不是  1：是。
+* @see     TreeNode_ptr;
+* @note    递归调用，缺点是节点会被重复计算深度
+*/
+int IsBalancedBinary1(TreeNode_ptr T)
+{
+	if(NULL == T)
+		return 1;
+	int leftdepth, rightdepth, difference;
+	leftdepth = IsBalancedBinary1(T->leftchild);
+	rightdepth = IsBalancedBinary1(T->rightchild);
+	difference = leftdepth - rightdepth;
+	if(difference > 1 || difference < -1)
+		return 0;
+	
+	return IsBalancedBinary1(T->leftchild) && IsBalancedBinary1(T->rightchild);
+}
+
+/** 
+* @brief   判断是不是平衡二叉树。
+* @param   T：输入二叉树的根节点
+* @retval  0：不是  1：是。
+* @see     TreeNode_ptr;
+* @note    递归调用，避免重复计算
+*/
+int IsBalancedBinary2(TreeNode_ptr T, int *depth)
+{
+	if(NULL == T)
+	{
+		*depth = 0;
+		return 1;
+	}
+	int leftdepth, rightdepth,difference;
+	if(IsBalancedBinary2(T->leftchild, &leftdepth) && IsBalancedBinary2(T->rightchild, &rightdepth))
+	{
+		difference = leftdepth - rightdepth;
+		if(difference <= 1 && difference >= -1)
+		{
+			*depth = (leftdepth > rightdepth) ? leftdepth+1 : rightdepth+1;
+			return 1;
+		}
+	}
+	return 0;
+}
 int main()
 {
 	TreeNode_ptr root= Create_Binarytree();
-	printf("BinaryTreeDepth = %d\r\n", BinaryTreeDepth(root));
+	int depth  =0;
+	if(IsBalancedBinary2(root, &depth))
+	{
+		printf("Balanced");
+	}
+	else
+	{
+		printf("Not Balanced");		
+	}
 }

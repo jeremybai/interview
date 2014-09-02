@@ -21,7 +21,9 @@ TreeNode* Create_Binarytree()
 {
     ElementType ch;
     TreeNode* T;
-    scanf("%c",&ch);    //这样调用scanf时，树的结点一次全部输入，如果要一次一个的输入，在%c前加个空格
+	//逐个输入，输入完一个空格或者回车
+	//如果%c前不加空格，一次性输入，此时每个字符代表一个节点
+    scanf(" %c",&ch);    
     if(ch != '#')
     {
 		if(NULL == (T = (TreeNode*)malloc(sizeof(TreeNode))))

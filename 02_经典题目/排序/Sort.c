@@ -56,51 +56,6 @@ int BubleSort(int *array, int length)
 }
 
 /** 
-* @brief     快速排序函数实现从小到大排序。
-* @param[in] array  数组起始地址
-* @param[in] length  数组大小
-* @retval    None
-* @see       None
-* @note      时间复杂度O(nlgn)；最好情况O(nlgn)；最坏情况O(n^2)；
-			空间复杂度O(nlgn)；不稳定。			  
-*/
-void QuickSort(int *array, int low,int high)
-{
-	if((NULL == array) || low < 0 || high < 0)
-	{
-		printf("输入参数有误\n");
-		return;
-	}
-	if ( low < high ) 
-	{
-		int i = low, j = high, temp = array[low];
-		while ( i < j ) 
-		{
-			//从右往左扫描，如果数组元素大于temp,
-			//则继续，直至找到第一个小于temp的元素
-			while ( i < j && array[j] >= temp ) 
-			{
-				--j;
-			}
-			if ( i < j ) {
-				array[i++] = array[j];
-			}
-			//从左往右扫描，如果数组元素小于temp,
-			//则继续，直至找到第一个大于temp的元素
-			while ( i < j && array[i] <= temp ) {
-				++i;
-			}
-			if ( i < j ) {
-				array[j--] = array[i];
-			}
-		}
-		array[i] = temp;
-		QuickSort(array, low, i - 1);
-		QuickSort(array, i + 1, high);
-	}
-}
-
-/** 
 * @brief     归并排序函数实现从小到大排序。
 * @param[in] array  原始数组指针
 * @param[in] temp   用于存放排序的数组
@@ -178,40 +133,6 @@ int MergeSort(int *array, int *temp, int begin, int end)
 }
 
 /** 
-* @brief     选择排序函数实现从小到大排序。
-* @param[in] array  原始数组指针
-* @param[in] length 数组长度
-* @retval    错误码 0代表成功 1代表参数错误
-* @see       None
-* @note      时间复杂度O(n^2)；最好情况O(n^2)；最坏情况O(n^2)；
-			空间复杂度O(1)；不稳定。	   		  
-*/
-int SelectSort(int *array, int length)
-{
-	if(NULL == array || 0 == length )
-	{
-		printf("参数错误!\n");
-		return 1;
-	}
-	int i,j,min,min_index;
-	for(i = 0; i < length-1; i++)
-	{
-		min = array[i],min_index = i;
-		for(j = i; j < length; j++)
-		{
-			if(array[j] < min)
-			{
-				min = array[j];
-				min_index = j;
-			}
-		}
-		if(i != min_index)
-		Swap(&array[i],&array[min_index]);
-	}
-	return 0;
-}
-
-/** 
 * @brief     插入排序函数实现从小到大排序。
 * @param[in] array  数组起始地址
 * @param[in] length  数组大小
@@ -235,6 +156,85 @@ int InsertSort(int *array, int length)
 			Swap(&array[j], &array[j+1]);
 		}
 	}	
+	return 0;
+}
+
+/** 
+* @brief     快速排序函数实现从小到大排序。
+* @param[in] array  数组起始地址
+* @param[in] length  数组大小
+* @retval    None
+* @see       None
+* @note      时间复杂度O(nlgn)；最好情况O(nlgn)；最坏情况O(n^2)；
+			空间复杂度O(nlgn)；不稳定。			  
+*/
+void QuickSort(int *array, int low,int high)
+{
+	if((NULL == array) || low < 0 || high < 0)
+	{
+		printf("输入参数有误\n");
+		return;
+	}
+	if ( low < high ) 
+	{
+		int i = low, j = high, temp = array[low];
+		while ( i < j ) 
+		{
+			//从右往左扫描，如果数组元素大于temp,
+			//则继续，直至找到第一个小于temp的元素
+			while ( i < j && array[j] >= temp ) 
+			{
+				--j;
+			}
+			if ( i < j ) {
+				array[i++] = array[j];
+			}
+			//从左往右扫描，如果数组元素小于temp,
+			//则继续，直至找到第一个大于temp的元素
+			while ( i < j && array[i] <= temp ) {
+				++i;
+			}
+			if ( i < j ) {
+				array[j--] = array[i];
+			}
+		}
+		array[i] = temp;
+		QuickSort(array, low, i - 1);
+		QuickSort(array, i + 1, high);
+	}
+}
+
+/** 
+* @brief     选择排序函数实现从小到大排序。
+* @param[in] array  原始数组指针
+* @param[in] length 数组长度
+* @retval    错误码 0代表成功 1代表参数错误
+* @see       None
+* @note      时间复杂度O(n^2)；最好情况O(n^2)；最坏情况O(n^2)；
+			 空间复杂度O(1)；不稳定。	   		  
+*/
+int SelectSort(int *array, int length)
+{
+	if(NULL == array || 0 == length )
+	{
+		printf("参数错误!\n");
+		return 1;
+	}
+	int i,j,min,min_index;
+	for(i = 0; i < length-1; i++)
+	{
+		min = array[i],min_index = i;
+		for(j = i; j < length; j++)
+		{
+			if(array[j] < min)
+			{
+				min = array[j];
+				min_index = j;
+			}
+		}
+		if(i != min_index)
+			Swap(&array[i],&array[min_index]);
+	}
 	return 0;
 }
 
@@ -287,7 +287,7 @@ void HeapAjust(int array[],int i,int length)
 	if((NULL == array) || i < 0 || length < 1)
 	{
 		printf("输入参数有误\n");
-		return 1;
+		return;
 	}	
 	int nChild;
 	int nTemp;

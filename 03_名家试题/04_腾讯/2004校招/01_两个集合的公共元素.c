@@ -17,6 +17,29 @@
 
 int LCSPro[MAXNUM][MAXNUM]; //LCD数组，存放当前公共元素个数
 int LCSPath[MAXNUM][MAXNUM];//用于打印公共元素
+
+/**		内部函数  
+*     
+*		用于两个数进行交换。    
+*/ 
+static void Swap(int *a, int *b)
+{
+	*a ^= *b;
+	*b ^= *a;
+	*a ^= *b;
+}
+
+/**		内部函数  
+*     
+*		用于两个数进行交换。    
+*/ 
+static void SwapPtr(int **a, int **b)
+{
+	*a = (int*)((int)*a^(int)*b);
+	*b = (int*)((int)*b^(int)*a);
+	*a = (int*)((int)*a^(int)*b);
+}
+
 /**
  * 构造Hash表
  */
@@ -179,11 +202,80 @@ void CommonElements_LCS(int* array1, int array1_len, int* array2, int array2_len
 	PrintPath(array1, array1_len, array2_len);
 }
 
+/** 
+* @brief     两个集合的公共元素，集合以数组表示
+* @param[in] array1       集合1的指针
+* @param[in] array1_len   集合1的大小
+* @param[in] array2       集合2的指针
+* @param[in] array2_len   集合2的大小
+* @retval    错误码     0：成功	-1：输入参数有误	-2：申请空间失败。
+* @see       None
+* @note            
+*/
+int CommonElements_BitMap(int* array1, int array1_len, int* array2, int array2_len) 
+{
+	if(NULL == array1 || NULL == array2 || 0 == array1_len || 0 == array2_len)
+	{
+		printf("输入参数有误\r\n");
+		return -1;
+	}
+    int i, min_less = array1[0], max_less = array1[0], min_more  = array2[0], max_more  = array2[0], range_less, range_more, range;
+	int *array_less = array1, *array_more = array2;
+	int length_less = array1_len, length_more = array2_len;
+    //求出arra1的最大值和最小值
+    for(i = 0; i < array1_len; i++)
+    {
+        if(array1[i] > max_less)
+            max_less = array1[i];
+		else if(array1[i] < min_less)
+			min_less = array1[i];
+    }
+	range_less = max_less - min_less;
+    for(i = 0; i < array2_len; i++)
+    {
+        if(array2[i] > max_more)
+            max_more = array2[i];
+		else if(array2[i] < min_more)
+			min_more = array2[i];
+    }
+	range_more = max_more - min_more;
+	if(range_less > range_more)
+	{
+		Swap(&range_less, &range_more);
+		SwapPtr(&array_less, &array_more);//Swap不能交换两个指针的值
+		Swap(&min_less, &min_more);
+		Swap(&max_less, &max_more);
+		Swap(&length_less, &length_more);
+	}
+
+    int* bitmap;
+	if(NULL == (bitmap = (int*)malloc(sizeof(int)*(range_less / 8 + 1))))
+	{
+		printf("申请空间失败!\r\n");
+		return -2;
+	}
+	memset(bitmap, 0, sizeof(int)*(range_less / 8 + 1));
+	char* p = (char*)bitmap;
+	for(i = 0; i < length_less; i++)
+	{
+		*(p + (array_less[i] - min_less) / 8) |= 1 << ((array_less[i] - min_less) % 8);
+	}
+	for(i = 0; i < length_more; i++)
+	{
+		if( (array_more[i] - min_less) >= 0 && (array_more[i] - min_less) <= range_less)
+		{
+			if(*(p + (array_more[i] - min_less) / 8) & (1 << ((array_more[i] - min_less) % 8)))
+				printf("%d    ",array_more[i]);
+		}
+	}	
+	free(bitmap);
+	return 0;
+}
 int main()
 {
 	int a[] = {1,3,-4,7,9,20};
 	int b[] = {3,7,12,4,9,-4,14};
 	//CommonElements_Hash(a, sizeof(a)/sizeof(int), b, sizeof(b)/sizeof(int));
-	CommonElements_LCS(a, sizeof(a)/sizeof(int), b, sizeof(b)/sizeof(int));
-
+	//CommonElements_LCS(a, sizeof(a)/sizeof(int), b, sizeof(b)/sizeof(int));
+	CommonElements_BitMap(a, sizeof(a)/sizeof(int), b, sizeof(b)/sizeof(int));
 }

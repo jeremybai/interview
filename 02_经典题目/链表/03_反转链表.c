@@ -117,7 +117,7 @@ int main()
 	Node_ptr ptr = List_User_Init();
 	Node_ptr ptrrev;
 	List_Traversal(ptr);
-	if(NULL == (ptrrev = ListReverse(ptr)))
+	if(NULL == (ptrrev = ListReverse1(ptr)))
 	{
 		printf("param error!\r\n");
 		return 1;

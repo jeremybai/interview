@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="MoreThanHalfNumber">
+</Property><Property Name="解决方案文件" Value="D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\MoreThanHalfNumber\MoreThanHalfNumber.sln">
+</Property><Property Name="Date" Value="2014年9月11日">
+</Property><Property Name="Time" Value="9:58:36">
+</Property></Properties><Event ErrorLevel="0" Project="MoreThanHalfNumber" Source="MoreThanHalfNumber.vcproj" Description="Converting project file 'D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\MoreThanHalfNumber\MoreThanHalfNumber.vcproj'.">
+</Event><Event ErrorLevel="1" Project="MoreThanHalfNumber" Source="MoreThanHalfNumber.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="MoreThanHalfNumber" Source="MoreThanHalfNumber.vcproj" Description="Done converting to new project file 'D:\Lib\面试题\02_经典题目\剑指offer\InterviewQuestions\InterviewQuestions\MoreThanHalfNumber\MoreThanHalfNumber.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="MoreThanHalfNumber" Source="MoreThanHalfNumber.vcproj" Description="Converted">
+</Event></UpgradeLog>

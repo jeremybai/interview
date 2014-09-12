@@ -8,7 +8,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
-long long Fibonacci(uint32_t n)
+/**		求斐波那契数列的第n项   
+ *     
+ *		采用迭代求解。    
+ */ 
+long long Fibonacci_Iteration(uint32_t n)
 {
 	if(n == 0 || n == 1)
 	{
@@ -28,16 +32,45 @@ long long Fibonacci(uint32_t n)
 	}
 }
 
+/**		求斐波那契数列的第n项   
+ *     
+ *		采用递归求解。    
+ */ 
+long long Fibonacci_Recursion(uint32_t n)
+{
+	if(n == 0 || n == 1)
+	{
+		return n;
+	}
+	else
+	{
+		return Fibonacci_Recursion(n-1) + Fibonacci_Recursion(n-2);
+	}
+}
+
+/**		求斐波那契数列的第n项   
+ *     
+ *		采用尾递归求解。    
+ */ 
+int factorial_tail(int n,int acc1,int acc2)
+{
+    if (n == 0)
+    {
+        return acc1;
+    }
+    else
+    {
+        return factorial_tail(n-1,acc2,acc1+acc2);
+    }
+}
 int main()
 {
 	uint32_t n; 
 	printf("请输入N:\n");
 	
-	scanf("%d",&n);
-	while(1)
+	while(EOF != scanf("%d",&n))
 	{
-		printf("Fibnacci数列的第%d项为：%d\n",n,Fibonacci(n));
-		scanf("%d",&n);
+		printf("Fibnacci数列的第%d项为：%d\n",n,factorial_tail(n, 0, 1));
 	}
 }
 

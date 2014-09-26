@@ -11,12 +11,12 @@ int strlen_a(const char * str)
 	}
 	int length = 0 ;
 	while (*str++ )
-	 ++ length;
+	++ length;
 	return  length;
- }
- 
- int strlen_b(const char * str) 
- {
+}
+
+int strlen_b(const char * str) 
+{
 	if(str == NULL)
 	{
 		printf("ÊäÈë×Ö·û´®Îª¿Õ\n");
@@ -25,7 +25,7 @@ int strlen_a(const char * str)
 	const char *cp =  str;
 	while (*cp++ );
 	return (cp - str - 1 );
- }
+}
 
 int strcmp(const char * src,const char * dst)
 {
@@ -40,9 +40,9 @@ int strcmp(const char * src,const char * dst)
 		++src, ++dst; 		
 	}
 	if ( ret < 0 )
-		ret = -1 ;        
+	ret = -1 ;        
 	else if ( ret > 0 )  
-		ret = 1 ;
+	ret = 1 ;
 	return ret;
 }
 

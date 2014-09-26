@@ -114,14 +114,19 @@ Node_ptr ListReverse(Node_ptr phead)
 
 int main()
 {	
-	Node_ptr ptr = List_User_Init();
-	Node_ptr ptrrev;
-	List_Traversal(ptr);
-	if(NULL == (ptrrev = ListReverse1(ptr)))
-	{
-		printf("param error!\r\n");
-		return 1;
-	}	
-	List_Traversal(ptrrev);
-	return 0;
+	// Node_ptr ptr = List_User_Init();
+	// Node_ptr ptrrev;
+	// List_Traversal(ptr);
+	// if(NULL == (ptrrev = ListReverse1(ptr)))
+	// {
+		// printf("param error!\r\n");
+		// return 1;
+	// }	
+	// List_Traversal(ptrrev);
+	// return 0;
+	Node_ptr node_ptr = (Node *)malloc(sizeof(Node));
+	node_ptr->data = 1;
+	node_ptr->next = NULL;
+	if(node_ptr->next->next == NULL)
+		printf("%d",node_ptr->next->data);
 }

@@ -1,154 +1,74 @@
 /****************************************************************************
-* @file     04_字符串匹配.c
-* @brief    
-* @version  V1.00
-* @date     2014.9.4
-* @note     
-****************************************************************************/
+ * @file     03_反转句子中单词的顺序.c
+ * @brief    输入"I am a  student"，输出"student a am I"
+ * @version  V1.00
+ * @date     2014.9.15
+ * @note     
+ ****************************************************************************/
 #include <stdio.h>
-#include <string.h>
 
-int ViolentMatch(char* text, char* pattern)  
-{  
-	int text_len = strlen(text);  
-	int pattern_len = strlen(pattern);  
-
-	int i = 0;  
-	int j = 0;  
-	while (i < text_len && j < pattern_len)  
-	{  
-		if (text[i] == pattern[j])  
-		{  
-			//如果当前字符匹配成功，则i++，j++      
-			i++;  
-			j++;  
-		}  
-		else  
-		{  
-			//如果匹配失败，令i = i - (j - 1)，j = 0 ，回到当前匹配的第一个字符的下一个     
-			i = i - j + 1;  
-			j = 0;  
-		}  
-	}  
-	//匹配成功，返回模式串p在文本串s中的位置，否则返回-1  
-	if (j == pattern_len)  
-		return i - j;  
-	else  
-		return -1;  
-} 
-
-//直接对t进行自我匹配，遍历进行计算next数组
-//还可以用递推法进行计算：GetNext_R
-//笨方法，好理解
-void GetNext_D(char *t,int *next)
+/** 
+ * @brief     反转字符串。
+ * @param[in] begin    字符串的头指针
+ * @param[in] end      字符串的尾指针
+ * @retval    None
+ * @see       None
+ * @note      将字符串1和n交换，2和n-1交换，依次交换...
+ */
+void Reverse(char* begin,char* end)
 {
-	unsigned int i=0,j=0,k=0;
-	int equal = 1;
-
-	for(i=0;i<strlen(t);i++)
+	if(NULL == begin ||  NULL == end)
 	{
-		if(i==0)
-		next[i] = -1;
-		else if(i==1)
-		next[i] = 0;
-		else
-		{
-			for(j=i-1;j>0;j--)
-			{
-				equal = 1;
-				//t[0到j]从最大的前缀和后缀进行比较判断，不断缩短
-				//匹配到就break，得到目前所能匹配的最大前缀和后缀
-				//例如ababa  next[4]=2,说明t[0...2] match t[2...4]
-				for(k=0;k<j;k++)
-				{
-					//注意索引别搞错了
-					if(t[k]!=t[i-j+k])
-					equal = 0;
-				}
-
-				if(equal)
-				{
-					next[i] = j;
-					break;
-				}
-			}
-			if(j == 0)
-			next[i]=0;
-
-		}
+		printf("参数错误!\n");
+		return ;
 	}
-
+	while(begin < end)
+	{
+		*begin ^= *end;
+		*end ^= *begin;
+		*begin++ ^= *end--;
+	}
 }
 
-//递推的关系来求next
-//好好理解下递推关系
-void GetNext_R(char *t,int *next)
+int ReverseWordOrder(char* data_ptr)
 {
-	unsigned int j=0;
-	int k = -1;
-	next[0]=-1;
-
-	while(j<strlen(t)-1)
+	if(NULL == data_ptr)
 	{
-
-		if(k==-1||t[j]==t[k])
+		printf("参数错误!\n");
+		return 1;
+	}
+	char *begin,*end;
+	begin = end  = data_ptr;
+	while('\0' != *++end){}
+	end--;
+	//反转整个字符串
+	Reverse(begin, end);
+	//反转逐个单词
+	begin = end  = data_ptr;
+	while('\0' != *begin)
+	{
+		if(*begin == ' ')
 		{
-			j++;
-			k++;
-			next[j]=k;
+			begin++;
+			end++;
+		}
+		else if(*end == ' ' || *end == '\0')
+		{
+			Reverse(begin, --end);
+			begin = ++end;
 		}
 		else
-		k=next[k];
-	}
-
-}
-
-int KMP(char *s, char *t)
-{
-	unsigned int i;
-	int j = 0;
-	int *next = (int*)calloc(strlen(t),sizeof(int));
-
-	//GetNext_D(t,next);
-	GetNext_R(t,next);
-
-	printf("next[] = ");
-	for(i=0;i<strlen(t);i++)
-	printf("%d ",next[i]);
-
-	i=0;
-	while(i<strlen(s))
-	{
-		if(j==-1||s[i]==t[j])
 		{
-			i++;
-			j++;
+			end++;
 		}
-		else
-		j = next[j];
-
-		if(j==strlen(t))
-		return (i-strlen(t));
 	}
-
-	free(next);
-
-	return -1;
 }
 
 int main()
 {
-	char text[] = "ABCDEFGHIJKLMN";
-	char pattern[] = "KLM";
-	int result = ViolentMatch(text, pattern);
-	if(-1 == result)
-	{
-		printf("匹配不成功\r\n");
-	}
-	else
-	{
-		printf("匹配成功，匹配位置：%d\r\n",result);
-	}
+	char p[16] = " I am a  tudent";
+	ReverseWordOrder(p);
+	printf("%s",p);
 }
 
 

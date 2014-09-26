@@ -97,6 +97,55 @@ ComplexListNode_ptr ReConnect(ComplexListNode *pHead)
 	return pCopyHead;
 }
 
+/** 
+ * @brief     复杂链表的复制（未完成）。
+ * @param[in] pHead:需要复制的链表头
+ * @retval    ComplexListNode*  返回复制链表的首指针。
+ * @see       ComplexListNode
+ * @note      使用hash表辅助存储，需要每次从当前节点得到m_pSibling，
+			  再遍历hash，得到m_pSibling对应的节点的复制节点的地址，c++中更
+			  可以使用STL map，C语言中可能需要自己实现hashmap。
+ */
+ComplexListNode_ptr CopyList_Hash(ComplexListNode *pHead)
+{
+	ComplexListNode_ptr pNode = pHead;
+	ComplexListNode_ptr pCopyHead, pCopyNode; 
+
+	pCopyHead = pCopyNode = pHead;
+
+	int length = 0, i = 0;
+	//1 复制链表
+	while(NULL != pNode)
+	{
+		ComplexListNode_ptr pNew = malloc(sizeof(ComplexListNode));
+		pNew->m_nValue = pNode->m_nValue;
+		pNew->m_pSibling = NULL;
+		pNew->m_pNext = NULL;	
+		
+		pCopyNode->m_pNext = pNew;
+		pCopyNode = pCopyNode->m_pNext;
+		pNode = pNode->m_pNext;
+		length++;
+	}
+	//2 创建hash表，ComplexListNode_ptr数组，大小为原链表长度
+	ComplexListNode_ptr* hash; //注意，这里要声明为指针的指针，因为数组里面存放的是指针
+	if(NULL == (hash = (ComplexListNode_ptr*)malloc(sizeof(ComplexListNode_ptr)*length)))
+	{
+		printf("申请空间错误！\r\n");
+		return NULL;
+	}
+	pNode = pHead;
+	i = 0;
+	while(NULL != pNode && i <= length)
+	{
+		hash[i] =  pNode->m_pSibling;
+		pNode = pNode->m_pNext->m_pNext;
+	}	
+	//3 复制m_pSibling指针	
+	
+}
+
+
  int main()
  {
 	ComplexListNode a;

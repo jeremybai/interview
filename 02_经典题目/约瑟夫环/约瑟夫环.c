@@ -139,6 +139,48 @@ int Josephus_Iteration(int n, int m)
 	}
 	return Josephus_now;
 }
+
+/** 
+ * @brief     约瑟夫环，n个人，报到m的节点被删除，直到最后节点。
+ * @param[in] n   总人数
+ * @param[in] m   报号数
+ * @retval    最后剩下的数
+ * @see       
+ * @note      数组实现
+ */
+int Josephus_Array(int n, int m)
+{
+	if(n <= 0 || m <= 0)
+		return -1;
+	int *array;
+	if(NULL == (array = (int*)malloc(sizeof(int)*n)))
+		return -2;
+	memset(array, 0, sizeof(int)*n);
+	int index = 0, num = n,count = 0;
+	while(num > 1)
+	{
+		if(array[index] == 0)
+			count++;
+		if(count == m)
+		{
+			array[index] = 1;
+			printf("%d  ",index);
+			count = 0;
+			num--;
+		}
+		index++;
+		if(index == n)
+			index = 0;
+	}
+	index = index % n;
+	while(array[index] == 1)
+		index = (++index) % n;
+	printf("\n最后剩下的是：%d   ",index);
+	free(array);
+	array = NULL;
+}
+
+
 int main()
 {
 	// Node * head = List_User_Init();
@@ -147,7 +189,8 @@ int main()
 	// scanf("%d",&m);
 	// head = Josephus(head,m);
 	// printf("剩下的节点为：%d\n", head->data);
-	int n =  9,m = 3;
-	printf("n = %d, m = %d,剩下的节点为：%d\n", n, m, Josephus_Recursion(n, m));
+	int n = 12,m = 4;
+	//printf("n = %d, m = %d,剩下的节点为：%d\n", n, m, Josephus_Recursion(n, m));
 	printf("n = %d, m = %d,剩下的节点为：%d\n", n, m, Josephus_Iteration(n, m));
+	Josephus_Array(n, m);
 }

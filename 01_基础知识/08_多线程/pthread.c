@@ -12,9 +12,9 @@
  
 void* PrintHello(void *threadid) 
 { 
-   int tid; 
-   tid = (int)threadid; 
-   printf("thread id= #%d!\n", tid); 
+   int *tid; 
+   tid = (int*)threadid; 
+   printf("thread id= #%d!\n", *tid); 
    pthread_exit(NULL); 
 } 
  
@@ -24,7 +24,7 @@ int main (int argc, char *argv[])
    int rc, t; 
    for(t=0; t<NUM_THREADS; t++){ 
       printf("In main: creating thread %d\n", t); 
-      rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t); 
+      rc = pthread_create(&threads[t], NULL, PrintHello, (void *)&t); 
       if (rc){ 
          printf("ERROR; return code from pthread_create() is %d\n", rc); 
          exit(-1); 

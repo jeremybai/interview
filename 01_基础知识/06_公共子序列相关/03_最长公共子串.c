@@ -70,6 +70,45 @@ int MaxCommonSubString(char* query, int query_len, char* text, int text_len)
 	return 0;
 }
 
+
+/** 
+ * @brief     返回query在text中出现的最长连续字母序列的长度
+ * @param[in] text       text的首地址
+ * @param[in] text_len   text的长度
+ * @param[in] query      query的首地址
+ * @param[in] query_len  链表长度
+ * @retval    最长连续字母序列的长度 -1代表参数错误
+ * @see       
+ * @note      暴力求解
+ */
+int MaxString(char text[],int text_len,char query[],int query_len)
+{
+	if((NULL == text)|| (NULL == text) || text_len < 0 || query_len < 1)
+	{
+		printf("输入参数有误\n");
+		return -1;
+	}
+	char temp[MAXNUM];
+	int MaxLeng = 0;
+	int MaxTemp = 0;
+	text[text_len]='\0';query[query_len]='\0';
+	for(int i= 0;i < query_len; i++)
+	{
+		for(int j = query_len;j > i; j--)
+		{
+			strcpy(temp,query);
+			temp[j]= '\0' ;
+			if(strstr(text, &temp[i]))
+			{
+				MaxTemp = j - i;
+				if(MaxTemp > MaxLeng)
+					MaxLeng = MaxTemp;
+			}
+		}
+	}
+	return MaxLeng;
+}
+
 int main()
 {
 	char *query = (char*)malloc(sizeof(char)*MAXNUM);
